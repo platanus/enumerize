@@ -67,7 +67,11 @@ module Enumerize
         end
       end
 
-      values.map { |v| [v.text, v.to_s] }
+      if !!options[:values]
+        values.map { |v| [v.text, v.value] }
+      else
+        values.map { |v| [v.text, v.to_s] }
+      end
     end
 
     def define_methods!(mod)
