@@ -39,6 +39,7 @@ module Enumerize
 
   begin
     require 'simple_form'
+    require 'enumerize/hooks/ransack'
     require 'enumerize/hooks/simple_form'
     require 'enumerize/form_helper'
   rescue LoadError
@@ -47,6 +48,7 @@ module Enumerize
   begin
     require 'formtastic'
     require 'enumerize/hooks/formtastic'
+    require 'enumerize/hooks/ransack'
   rescue LoadError
   end
 
