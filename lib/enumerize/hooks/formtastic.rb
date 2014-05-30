@@ -10,7 +10,6 @@ module Enumerize
       end
 
       def input_with_enumerize(method, options={})
-        puts "Formtastic as:#{options[:as]}"
         klass = object.class
 
         if klass.respond_to?(:enumerized_attributes) && (attr = klass.enumerized_attributes[method])

@@ -13,6 +13,7 @@ module Enumerize
         klass = object.is_a?(::Ransack::Search) ? object.klass : object.class
 
         if klass.respond_to?(:enumerized_attributes) && (attr = klass.enumerized_attributes[method])
+          options[:collection] ||= attr.options
           options[:as] = :select
         end
 
@@ -23,5 +24,5 @@ module Enumerize
 end
 
 ::Formtastic::FormBuilder.send :include, Enumerize::Hooks::RansackFormBuilderExtension if defined?(::Formtastic)
-#::SimpleForm::FormBuilder.send :include, Enumerize::Hooks::RansackFormBuilderExtension if defined?(::SimpleForm)
+::SimpleForm::FormBuilder.send :include, Enumerize::Hooks::RansackFormBuilderExtension if defined?(::SimpleForm)
 
