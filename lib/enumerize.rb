@@ -41,12 +41,19 @@ module Enumerize
     require 'simple_form'
     require 'enumerize/hooks/simple_form'
     require 'enumerize/form_helper'
+    require 'enumerize/hooks/ransack' if defined? ::Ransack
+    require 'enumerize/hooks/metasearch' if defined? ::MetaSearch
   rescue LoadError
   end
 
   begin
     require 'formtastic'
     require 'enumerize/hooks/formtastic'
+    if defined? ::Ransack
+      require 'enumerize/hooks/ransack'
+      puts 'ME CARGO???' * 50
+    end
+    require 'enumerize/hooks/metasearch' if defined? ::MetaSearch
   rescue LoadError
   end
 
