@@ -41,12 +41,14 @@ module Enumerize
     require 'simple_form'
     require 'enumerize/hooks/simple_form'
     require 'enumerize/form_helper'
+    require 'enumerize/hooks/ransack' if defined? ::Ransack
   rescue LoadError
   end
 
   begin
     require 'formtastic'
     require 'enumerize/hooks/formtastic'
+    require 'enumerize/hooks/ransack' if defined? ::Ransack
   rescue LoadError
   end
 
