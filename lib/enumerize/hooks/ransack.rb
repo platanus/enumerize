@@ -10,11 +10,14 @@ module Enumerize
       end
 
       def input_with_ransack(method, options={})
-        klass = object.is_a?(::Ransack::Search) ? object.klass : object.class
+        if object.is_a?(::Ransack::Search)
+          klass = object.klass
+          puts 'RANSAK SOY' + klass.inspect
 
-        if klass.respond_to?(:enumerized_attributes) && (attr = klass.enumerized_attributes[method])
-          options[:collection] ||= attr.options
-          options[:as] = :select
+          if klass.respond_to?(:enumerized_attributes) && (attr = klass.enumerized_attributes[method])
+            options[:collection] ||= attr.options
+            options[:as] = :select
+          end
         end
 
         input_without_ransack(method, options)
@@ -23,6 +26,13 @@ module Enumerize
   end
 end
 
-::Formtastic::FormBuilder.send :include, Enumerize::Hooks::RansackFormBuilderExtension if defined?(::Formtastic)
-::SimpleForm::FormBuilder.send :include, Enumerize::Hooks::RansackFormBuilderExtension if defined?(::SimpleForm)
+if defined?(::Formtastic)
+  puts 'CARGO FORMTASTIC EN RANSACK HOOK?'
+  ::Formtastic::FormBuilder.send :include, Enumerize::Hooks::RansackFormBuilderExtension
+end
+if defined?(::SimpleForm)
+  puts 'CARGO SIMPLE EN RANSACK HOOK?'
+  ::SimpleForm::FormBuilder.send :include, Enumerize::Hooks::RansackFormBuilderExtension
+end
+
 

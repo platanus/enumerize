@@ -49,7 +49,10 @@ module Enumerize
   begin
     require 'formtastic'
     require 'enumerize/hooks/formtastic'
-    require 'enumerize/hooks/ransack' if defined? ::Ransack
+    if defined? ::Ransack
+      require 'enumerize/hooks/ransack'
+      puts 'ME CARGO???' * 50
+    end
     require 'enumerize/hooks/metasearch' if defined? ::MetaSearch
   rescue LoadError
   end

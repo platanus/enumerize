@@ -1,11 +1,17 @@
 require 'test_helper'
 require 'active_record'
 require 'logger'
+require 'ransack'
+require 'formtastic'
+require 'simple_form'
+load './lib/enumerize.rb'
 
 silence_warnings do
   ActiveRecord::Migration.verbose = false
   ActiveRecord::Base.logger = Logger.new(nil)
-  ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
+  if !ActiveRecord::Base.connected?
+    ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")
+  end
 end
 
 ActiveRecord::Base.connection.instance_eval do
@@ -20,22 +26,31 @@ class Client < ActiveRecord::Base
   enumerize :sex, :in => [:male, :female]
 end
 
-describe 'Ransack support' do
+class RansackSpec < MiniTest::Spec
+  include ViewTestHelper
+  include Formtastic::Helpers::FormHelper
+  include SimpleForm::ActionViewExtensions::FormHelper
 
-  describe 'Formtastic' do
+  it 'renders select with enumerized values for formtastic' do
+    client = Client.search({})
 
-    it 'renders select with enumerized values' do
-      client = Client.search({})
-      puts client.inspect
+    concat(semantic_form_for(client) do |f|
+      f.input :sex
+    end)
 
-      concat(semantic_form_for(client) do |f|
-        f.input :sex
-      end)
+    assert_select 'select option[value=male]'
+    assert_select 'select option[value=female]'
+  end
 
-      assert_select 'select option[value=male]'
-      assert_select 'select option[value=female]'
-    end
+  it 'renders select with enumerized values for simple form' do
+    client = Client.search({})
 
+    concat(simple_form_for(client) do |f|
+      f.input :sex
+    end)
+
+    assert_select 'select option[value=male]'
+    assert_select 'select option[value=female]'
   end
 
 end
