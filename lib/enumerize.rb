@@ -42,7 +42,6 @@ module Enumerize
     require 'enumerize/hooks/simple_form'
     require 'enumerize/form_helper'
     require 'enumerize/hooks/ransack' if defined? ::Ransack
-    require 'enumerize/hooks/metasearch' if defined? ::MetaSearch
   rescue LoadError
   end
 
@@ -50,7 +49,6 @@ module Enumerize
     require 'formtastic'
     require 'enumerize/hooks/formtastic'
     require 'enumerize/hooks/ransack' if defined? ::Ransack
-    require 'enumerize/hooks/metasearch' if defined? ::MetaSearch
   rescue LoadError
   end
 
